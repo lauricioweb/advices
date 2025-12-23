@@ -1,22 +1,29 @@
 <?php
+// lauricio esteve aqui
 
 class Funcionario
 {
-  protected string $nome;
-  protected float $salario;
+  protected $nome;
+  protected $salario;
 
-  public function __construct(string $nome, float $salario)
+  public function __construct($nome, $salario)
   {
     $this->nome = $nome;
     $this->salario = $salario;
   }
-
-  public function get_info()
+  // retorno da informação de cada funcionario 
+  public function getInfo()
   {
-    return " nome : $this->nome ------ salario : $this->salario ";
+    return " nome : $this->nome ------ salario : $this->salario";
   }
 
-  public function calcular_bonus()
+  // todo funcinario recebe esta tipo por padrão
+  public function getTipo()
+  {
+    return "Funcionario";
+  }
+  // este metodo é sobrescrito em cada uma das classes filhas de acordo com a nescessidade de cada uma.
+  public function calcularBonus()
   {
     return $this->salario * 10 / 100;
   }
@@ -25,9 +32,15 @@ class Funcionario
 class Desenvolvedor extends Funcionario
 {
 
-  public function calcular_bonus()
+  public function calcularBonus()
   {
     return $this->salario * 20 / 100;
+  }
+
+  // cada tipo de funcionario poderá definir sobreescrevendo o metodo da classe pai 
+  public function getTipo()
+  {
+    return "Desenvolvedor";
   }
 }
 
@@ -37,42 +50,59 @@ class Gerente extends Funcionario
 
   public function __construct($nome, $salario, $nivel)
   {
-    $this->nome = $nome;
-    $this->salario = $salario;
+    // este construtor herda propriedades da classe pai;
+    parent::__construct($nome, $salario);
     $this->nivel = $nivel;
   }
-
-  public function calcular_bonus()
+  // classe sobrescrita de acordo com o nivel de cada gerente
+  public function calcularBonus()
   {
-    if ($this->nivel == 30) {
-      return $this->salario * 0.30;
-    } elseif ($this->nivel == 40) {
-      return $this->salario * 0.40;
-    } else {
-      return $this->salario * 0.50;
-    }
+    return match ($this->nivel) {
+      1 => $this->salario * 0.30,
+      2 => $this->salario * 0.40,
+      default => $this->salario * 0.50,
+    };
+  }
+
+  public function getTipo()
+  {
+    return "Gerente";
   }
 }
 
+$comun = new Funcionario("Lauricio", 1400);
+$developer = new Desenvolvedor("Mark zuker", 2400);
+$manger = new Gerente("gosma", 3400, 2);
 
-$comun = new Funcionario("func_comun", 1.400);
+echo $comun->getTipo();
+echo "<br>";
+echo $comun->calcularBonus();
+echo "<br> ------------ <br>";
 
-echo "<br> ------------------------- <br>";
-print_r($comun);
-$salario_comun = $comun->calcular_bonus();
-echo "<br> ------- salario comun : $salario_comun ------------------ <br>";
+echo ($developer->getInfo());
+echo "<br>";
+echo $developer->calcularBonus();
+echo "<br> ------------ <br>";
+
+print_r($manger->getInfo());
+echo "<br>";
+echo $manger->calcularBonus();
+echo "<br> ------------ <br>";
+
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+
+echo "<br> -----bonus------- <br>";
 
 
-$dev = new Desenvolvedor("func_dev", 2.500);
+// segunda parte bunus 
 
-echo "<br> ------------------------- <br>";
-print_r($dev);
-$salario_dev = $dev->calcular_bonus();
-echo "<br> ----------- salario dev : $salario_dev -------------- <br>";
+$funcionarios = [$comun, $developer, $manger];
 
-$manager = new Gerente("func_gerente", 4.600, 2);
-
-echo "<br> ------------------------- <br>";
-print_r($manager);
-$salario_manager = $manager->calcular_bonus();
-echo "<br> ------ salario gerente  :  $salario_manager ------------------- <br>";
+foreach ($funcionarios  as $funcionario) {
+  echo $funcionario->getInfo();
+  echo $funcionario->getTipo();
+  echo "<br>";
+}
