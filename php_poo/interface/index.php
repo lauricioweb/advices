@@ -90,7 +90,6 @@ class Freelancer implements Bonificavel
   }
 }
 
-
 // criando instancias;
 $desenvolvedor = new Desenvolvedor("mark zuk", 5.599, "programador junior");
 $gerente = new Gerente("pall allen", 9.500, "gerente", 3);
