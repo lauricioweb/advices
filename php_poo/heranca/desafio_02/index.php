@@ -1,6 +1,6 @@
 <?php
 
-class Character
+abstract class Character2 implements characterInterface
 {
   protected string $name;
   protected string $type;
@@ -12,6 +12,25 @@ class Character
     $this->type = $type;
     $this->force = $force;
   }
+
+
+  public function atack(): string
+  {
+    return "$this->name esta atacando";
+  }
+  public function defend(): string
+  {
+    return "$this->name esta defendendo";
+  }
+  public function showTipe(): string
+  {
+    return $this->type;
+  }
+
+  public function showForce(): float
+  {
+    return $this->force;
+  }
 }
 
 interface characterInterface
@@ -21,41 +40,9 @@ interface characterInterface
   public function showTipe(): string;
 }
 
-class Vilan extends Character implements characterInterface
-{
+class Vilan2 extends Character2 {}
 
-  public function atack(): string
-  {
-    return "$this->name esta atacando";
-  }
-  public function defend(): string
-  {
-    return "$this->name esta defendendo";
-  }
-  public function showTipe(): string
-  {
-    return $this->type;
-  }
-}
-
-class Hero extends Character implements characterInterface
-{
-
-  public function atack(): string
-  {
-    return "$this->name esta atacando";
-  }
-
-  public function defend(): string
-  {
-    return "$this->name esta defendendo";
-  }
-
-  public function showTipe(): string
-  {
-    return $this->type;
-  }
-}
+class Hero2 extends Character2 {}
 
 // criando personagegem de fora da classe;
 class Alternative implements characterInterface
@@ -90,8 +77,8 @@ class Alternative implements characterInterface
 
 // instanciando;
 
-$marvado = new Vilan("marvado", "vilão", 53.22);
-$supercu = new Hero("super cuzim", "heroi", 65.23);
+$marvado = new Vilan2("marvado", "vilão", 53.22);
+$supercu = new Hero2("super cuzim", "heroi", 65.23);
 $assistente = new Alternative();
 
 

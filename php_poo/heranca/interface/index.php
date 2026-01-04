@@ -2,7 +2,7 @@
 // iniciando estudo de hs
 
 
-abstract class Funcionario
+abstract class Funcionario implements Bonificavel
 {
   protected string $nome;
   protected float $salario;
@@ -15,7 +15,6 @@ abstract class Funcionario
     $this->cargo = $cargo;
   }
 
-  // por padrão todos os funcionarios recebem 10% de bonus 
   abstract public function calculaBonus(): float;
 
   abstract public function mostraCargo(): string;
@@ -27,11 +26,8 @@ interface Bonificavel
   public function mostraCargo(): string;
 }
 
-
-class Desenvolvedor extends Funcionario implements Bonificavel
+class Desenvolvedor extends Funcionario
 {
-  // sobreescrevendo metodo calculaBonus;
-  // Desenvolvedor recebe 20% de bonus 
   public function calculaBonus(): float
   {
     return $this->salario * 0.20;
@@ -43,7 +39,7 @@ class Desenvolvedor extends Funcionario implements Bonificavel
   }
 }
 
-class Gerente extends Funcionario implements Bonificavel
+class Gerente extends Funcionario
 {
   protected int $tipo;
 
@@ -98,5 +94,8 @@ $freela = new Freelancer(4.200);
 $bonusPagos = [$desenvolvedor, $gerente, $freela];
 
 foreach ($bonusPagos as $bonus) {
-  echo "cargo $bonus->mostraCargo() ||| bonus pago $bonus->calculaBonus()";
+  echo "cargo " . $bonus->mostraCargo();
+  echo "<br>";
+  echo "bonus pago " . $bonus->calculaBonus();
+  echo "<br>";
 }
